@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiTeste.Context;
+using ApiTeste.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,19 @@ namespace ApiTeste.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+        }
+
+        [HttpGet("/teste/{nome}")]
+        public long teste(string nome)
+        {
+            using(var db = new PessoaContext())
+            {
+                var pessoa = new Pessoa(nome);
+                db.Add(pessoa);
+                db.SaveChanges();
+
+                return pessoa.Id;
+            }
         }
 
         [HttpGet]
