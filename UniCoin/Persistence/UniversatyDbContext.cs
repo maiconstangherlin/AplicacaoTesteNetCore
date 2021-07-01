@@ -11,5 +11,19 @@ namespace UniversatyCoin.Persistence
 
         public DbSet<Student> Students { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Student>(entity =>
+            {
+                entity.ToTable("Students");
+                entity.HasKey(field => field.Id);
+
+                entity.Property(field => field.Name)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+            });
+
+        }
+
     }
 }
